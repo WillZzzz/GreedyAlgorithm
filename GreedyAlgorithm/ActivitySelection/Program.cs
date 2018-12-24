@@ -20,25 +20,25 @@ namespace ActivitySelection
                 intervals.Add(new List<int> { start[i], finish[i]});
             }
 
-            List<int> result = FindActivities(intervals);
+            List<List<int>> result = FindActivities(intervals);
         }
 
-        static List<int> FindActivities(List<List<int>> intervals)
+        static List<List<int>> FindActivities(List<List<int>> intervals)
         {
-            List<int> result = new List<int> { };
+			List<List<int>> result = new List<List<int>> { };
 
             intervals.Sort((a, b) => (a[1].CompareTo(b[1])));
-            result.Add(0);
+            result.Add(intervals[0]);
 
             for (int i = 1; i < intervals.Count; i++)
             {
-                while (intervals[result.Last()][1] > intervals[i][0])
+                while (result.Last()[1] > intervals[i][0])
                 {
                     i++;
                     if (i >= intervals.Count)
                         return result;
                 }
-                result.Add(i);
+                result.Add(intervals[i]);
             }
 
             return result;
