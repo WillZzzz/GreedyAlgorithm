@@ -10,6 +10,38 @@ namespace ActivitySelection
     {
         static void Main(string[] args)
         {
+            List<int> start  = new List<int> { 8, 3, 0, 5, 1, 5 };
+            List<int> finish = new List<int> { 9, 4, 6, 9, 2, 7 };
+
+            List<List<int>> intervals = new List<List<int>> { };
+
+            for (int i = 0; i < start.Count; i++)
+            {
+                intervals.Add(new List<int> { start[i], finish[i]});
+            }
+
+            List<int> result = FindActivities(intervals);
+        }
+
+        static List<int> FindActivities(List<List<int>> intervals)
+        {
+            List<int> result = new List<int> { };
+
+            intervals.Sort((a, b) => (a[1].CompareTo(b[1])));
+            result.Add(0);
+
+            for (int i = 1; i < intervals.Count; i++)
+            {
+                while (intervals[result.Last()][1] > intervals[i][0])
+                {
+                    i++;
+                    if (i >= intervals.Count)
+                        return result;
+                }
+                result.Add(i);
+            }
+
+            return result;
         }
     }
 }
